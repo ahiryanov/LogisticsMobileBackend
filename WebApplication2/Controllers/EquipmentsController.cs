@@ -39,7 +39,7 @@ namespace WebApplication2.Controllers
         [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
         public List<Equipment> GetEquipments(string category, string type, int idmodel)
         {
-            return db.Model.Where(t => t.Category == category && t.EquipmentType == type && t.IDModel == idmodel).FirstOrDefault().Equipment.ToList();
+            return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel).ToList();
         }
         // GET: api/Equipments
         // public IQueryable<Equipment> GetEquipment()
