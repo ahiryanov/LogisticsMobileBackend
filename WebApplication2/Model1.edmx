@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище LogisticsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="IDEquipment" />
+          </Key>
+          <Property Name="IDEquipment" Type="int" Nullable="false" />
+          <Property Name="IDModel" Type="int" Nullable="false" />
+          <Property Name="HealthState" Type="nvarchar(max)" />
+          <Property Name="PositionState" Type="nvarchar(max)" />
+          <Property Name="AssignedPosition" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="SerialNumber" Type="nvarchar(max)" />
+          <Property Name="ISNumber" Type="nvarchar(max)" />
+          <Property Name="IDRent" Type="int" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="IDModel" />
+          </Key>
+          <Property Name="IDModel" Type="int" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Characteristics" Type="nvarchar(max)" />
+          <Property Name="VendorName" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar(max)" />
+          <Property Name="EquipmentType" Type="nvarchar(max)" />
+          <Property Name="SubType" Type="nvarchar(max)" />
+          <Property Name="WeightNet" Type="int" />
+          <Property Name="WeightGross" Type="int" />
+          <Property Name="LenghtGross" Type="int" />
+          <Property Name="WidthGross" Type="int" />
+          <Property Name="HeightGross" Type="int" />
+          <Property Name="AmountGross" Type="nvarchar(max)" />
+          <Property Name="Price" Type="int" />
+        </EntityType>
+        <Association Name="FK_Equipment_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="IDModel" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="IDModel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище LogisticsModelContainer">
+          <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Equipment_Model" Association="Self.FK_Equipment_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LogisticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="IDEquipment" />
+          </Key>
+          <Property Name="IDEquipment" Type="Int32" Nullable="false" />
+          <Property Name="IDModel" Type="Int32" Nullable="false" />
+          <Property Name="HealthState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PositionState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedPosition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ISNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDRent" Type="Int32" />
+          <NavigationProperty Name="Model" Relationship="Self.FK_Equipment_Model" FromRole="Equipment" ToRole="Model" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="IDModel" />
+          </Key>
+          <Property Name="IDModel" Type="Int32" Nullable="false" />
+          <Property Name="ModelName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Characteristics" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VendorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EquipmentType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WeightNet" Type="Int32" />
+          <Property Name="WeightGross" Type="Int32" />
+          <Property Name="LenghtGross" Type="Int32" />
+          <Property Name="WidthGross" Type="Int32" />
+          <Property Name="HeightGross" Type="Int32" />
+          <Property Name="AmountGross" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_Model" FromRole="Model" ToRole="Equipment" />
+        </EntityType>
+        <Association Name="FK_Equipment_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="IDModel" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="IDModel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogisticsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Equipment" EntityType="Self.Equipment" />
+          <EntitySet Name="Model" EntityType="Self.Model" />
+          <AssociationSet Name="FK_Equipment_Model" Association="Self.FK_Equipment_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище LogisticsModelContainer" CdmEntityContainer="LogisticsEntities">
+          <EntitySetMapping Name="Equipment">
+            <EntityTypeMapping TypeName="LogisticsModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="IDEquipment" ColumnName="IDEquipment" />
+                <ScalarProperty Name="IDModel" ColumnName="IDModel" />
+                <ScalarProperty Name="HealthState" ColumnName="HealthState" />
+                <ScalarProperty Name="PositionState" ColumnName="PositionState" />
+                <ScalarProperty Name="AssignedPosition" ColumnName="AssignedPosition" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="ISNumber" ColumnName="ISNumber" />
+                <ScalarProperty Name="IDRent" ColumnName="IDRent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Model">
+            <EntityTypeMapping TypeName="LogisticsModel.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="IDModel" ColumnName="IDModel" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="Characteristics" ColumnName="Characteristics" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="EquipmentType" ColumnName="EquipmentType" />
+                <ScalarProperty Name="SubType" ColumnName="SubType" />
+                <ScalarProperty Name="WeightNet" ColumnName="WeightNet" />
+                <ScalarProperty Name="WeightGross" ColumnName="WeightGross" />
+                <ScalarProperty Name="LenghtGross" ColumnName="LenghtGross" />
+                <ScalarProperty Name="WidthGross" ColumnName="WidthGross" />
+                <ScalarProperty Name="HeightGross" ColumnName="HeightGross" />
+                <ScalarProperty Name="AmountGross" ColumnName="AmountGross" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
