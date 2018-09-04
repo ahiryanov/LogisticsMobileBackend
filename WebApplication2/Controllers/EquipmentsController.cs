@@ -15,7 +15,8 @@ namespace WebApplication2.Controllers
     public class EquipmentsController : ApiController
     {
         private LogisticsEntities db = new LogisticsEntities();
-        
+
+       
 
         [Route("api/Equipments/getcategoryes")]
         public List<string> GetCategoryes()
@@ -23,19 +24,19 @@ namespace WebApplication2.Controllers
             return db.Model.Select(r => r.Category).Distinct().ToList();
         }
 
-        [Route("api/Equipments/{category:alpha}")]
+        [Route("api/Equipments/{category}")]
         public List<string> GetTypes(string category)
         {
             return db.Model.Where(t => t.Category == category).Select(r => r.EquipmentType).Distinct().ToList();
         }
 
-        [Route("api/Equipments/{category:alpha}/{type:alpha}")]
+        [Route("api/Equipments/{category}/{type}")]
         public List<Model> GetModels(string category, string type)
         {
             return db.Model.Where(t => t.Category == category && t.EquipmentType == type).ToList();
         }
 
-        [Route("api/Equipments/{category:alpha}/{type:alpha}/{idmodel:int}")]
+        [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
         public List<Equipment> GetEquipments(string category, string type, int idmodel)
         {
             return db.Model.Where(t => t.Category == category && t.EquipmentType == type && t.IDModel == idmodel).FirstOrDefault().Equipment.ToList();
