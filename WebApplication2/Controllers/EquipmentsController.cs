@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using WebApplication2;
 
 namespace WebApplication2.Controllers
 {
     public class EquipmentsController : ApiController
     {
         private LogisticsEntities db = new LogisticsEntities();
-
-       
 
         [Route("api/Equipments/getcategoryes")]
         public List<string> GetCategoryes()
@@ -41,12 +36,7 @@ namespace WebApplication2.Controllers
         {
             return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel).ToList();
         }
-        // GET: api/Equipments
-        // public IQueryable<Equipment> GetEquipment()
-        //  {
-        //     return db.Equipment;
-        // }
-
+        
         // GET: api/Equipments/5
         [ResponseType(typeof(Equipment))]
         [Route("api/Equipments/{id:int}")]
