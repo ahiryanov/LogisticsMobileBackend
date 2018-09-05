@@ -13,8 +13,8 @@ namespace WebApplication2.Controllers
     {
         private LogisticsEntities db = new LogisticsEntities();
 
-        [Route("api/Equipments/getcategoryes")]
-        public List<string> GetCategoryes()
+        [Route("api/Equipments/getcategories")]
+        public List<string> GetCategories()
         {
             return db.Model.Select(r => r.Category).Distinct().ToList();
         }
