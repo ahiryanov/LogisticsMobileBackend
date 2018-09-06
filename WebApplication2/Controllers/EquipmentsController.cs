@@ -26,9 +26,21 @@ namespace WebApplication2.Controllers
         }
 
         [Route("api/Equipments/{category}/{type}")]
-        public List<Model> GetModels(string category, string type)
+        public List<ModelCount> GetModels(string category, string type)
         {
-            return db.Model.Where(t => t.Category == category && t.EquipmentType == type).ToList();
+            return (from model in db.Model
+                   where model.Category == category && model.EquipmentType == type
+                   select new ModelCount
+                   {
+                       Model = model,
+                       Count = model.Equipment.Count()
+                   }).ToList();
+        }
+
+        [Route("api/Equipments/{category}/{type}/count")]
+        public List<int> GetModelsCount(string category, string type)
+        {
+            return db.Model.Where(t => t.Category == category && t.EquipmentType == type).Select(r=>r.Equipment.Count).ToList();
         }
 
         [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
