@@ -18,7 +18,6 @@ namespace WebApplication2
         public LogisticsEntities()
             : base("name=LogisticsEntities")
         {
-            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -27,6 +26,13 @@ namespace WebApplication2
         }
     
         public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<EquipmentList> EquipmentList { get; set; }
+        public virtual DbSet<Manager> Manager { get; set; }
         public virtual DbSet<Model> Model { get; set; }
+        public virtual DbSet<ModelList> ModelList { get; set; }
+        public virtual DbSet<Rents> Rents { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<TransferEquipment> TransferEquipment { get; set; }
+        public virtual DbSet<ReportMessage> ReportMessage { get; set; }
     }
 }

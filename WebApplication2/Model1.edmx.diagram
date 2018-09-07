@@ -5,9 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="b85f881fe263456bad95d79f5379d51b" Name="Diagram1">
-        <EntityTypeShape EntityType="LogisticsModel.Equipment" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="LogisticsModel.Model" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="LogisticsModel.FK_Equipment_Model" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LogisticsModel.Equipment" Width="1.5" PointX="3" PointY="6.875" />
+        <EntityTypeShape EntityType="LogisticsModel.EquipmentList" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="LogisticsModel.Manager" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LogisticsModel.Model" Width="1.5" PointX="0.75" PointY="6.375" />
+        <EntityTypeShape EntityType="LogisticsModel.ModelList" Width="1.5" PointX="3" PointY="1.5" />
+        <EntityTypeShape EntityType="LogisticsModel.Rents" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="LogisticsModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LogisticsModel.TransferEquipment" Width="1.5" PointX="8.375" PointY="7" />
+        <EntityTypeShape EntityType="LogisticsModel.ReportMessage" Width="1.5" PointX="5.75" PointY="7.75" />
+        <AssociationConnector Association="LogisticsModel.FK_Equipment_Model" />
+        <AssociationConnector Association="LogisticsModel.FK_EquipmentList_Equipment" />
+        <AssociationConnector Association="LogisticsModel.FK_EquipmentList_ModelList" />
+        <AssociationConnector Association="LogisticsModel.FK_ModelList_Rents" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
