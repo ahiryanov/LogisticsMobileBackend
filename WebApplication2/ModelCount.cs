@@ -5,9 +5,10 @@ using System.Web;
 
 namespace WebApplication2
 {
+    
     public class ModelCount
     {
-        public Model Model;
-        public int Count;
+        public Model Model { get; set; }
+        public int Count { get; set; }
     }
 }
