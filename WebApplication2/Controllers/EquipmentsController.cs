@@ -13,6 +13,18 @@ namespace WebApplication2.Controllers
     {
         private LogisticsEntities db = new LogisticsEntities();
 
+        [Route("api/Equipments/getpositions")]
+        public List<string> GetPositions()
+        {
+            return db.Equipment.Select(t => t.PositionState).Distinct().ToList();
+        }
+
+        [Route("api/Equipments/gethealths")]
+        public List<string> GetHealths()
+        {
+            return db.Equipment.Select(t => t.HealthState).Distinct().ToList();
+        }
+
         [Route("api/Equipments/{id}/history")]
         public List<TransferEquipment> GetHistory(int id)
         {
