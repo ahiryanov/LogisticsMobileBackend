@@ -12,26 +12,26 @@ namespace WebApplication2
     using System;
     using System.Collections.Generic;
     
-    public partial class Equipment
+    public partial class Rents
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Equipment()
+        public Rents()
         {
-            this.EquipmentList = new HashSet<EquipmentList>();
+            this.ModelList = new HashSet<ModelList>();
         }
     
-        public int IDEquipment { get; set; }
-        public int IDModel { get; set; }
-        public string HealthState { get; set; }
-        public string PositionState { get; set; }
-        public string AssignedPosition { get; set; }
+        public int IDRent { get; set; }
+        public System.DateTime DateInstallation { get; set; }
+        public System.DateTime DateDeInstallation { get; set; }
+        public Nullable<int> idManager { get; set; }
+        public string EventName { get; set; }
         public string Description { get; set; }
-        public string SerialNumber { get; set; }
-        public string ISNumber { get; set; }
-        public Nullable<int> IDRent { get; set; }
+        public string CustomerCompany { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerPhoneNumber { get; set; }
+        public string InstallationAddress { get; set; }
     
-        public virtual Model Model { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EquipmentList> EquipmentList { get; set; }
+        public virtual ICollection<ModelList> ModelList { get; set; }
     }
 }

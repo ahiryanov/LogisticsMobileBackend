@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="653710c90638463981cef96d7de2e542" Name="Diagram1">
+        <EntityTypeShape EntityType="LogisticsModel.Equipment" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.EquipmentList" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.Manager" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.Model" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.ModelList" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.Rents" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.TransferEquipment" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogisticsModel.ReportMessage" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="LogisticsModel.FK_Equipment_Model" ManuallyRouted="false" />
+        <AssociationConnector Association="LogisticsModel.FK_EquipmentList_Equipment" ManuallyRouted="false" />
+        <AssociationConnector Association="LogisticsModel.FK_EquipmentList_ModelList" ManuallyRouted="false" />
+        <AssociationConnector Association="LogisticsModel.FK_ModelList_Rents" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

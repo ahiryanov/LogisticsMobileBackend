@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище LogisticsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="IDEquipment" />
+          </Key>
+          <Property Name="IDEquipment" Type="int" Nullable="false" />
+          <Property Name="IDModel" Type="int" Nullable="false" />
+          <Property Name="HealthState" Type="nvarchar(max)" />
+          <Property Name="PositionState" Type="nvarchar(max)" />
+          <Property Name="AssignedPosition" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="SerialNumber" Type="nvarchar(max)" />
+          <Property Name="ISNumber" Type="nvarchar(max)" />
+          <Property Name="IDRent" Type="int" />
+        </EntityType>
+        <EntityType Name="EquipmentList">
+          <Key>
+            <PropertyRef Name="IDEqList" />
+          </Key>
+          <Property Name="IDEqList" Type="int" Nullable="false" />
+          <Property Name="IDModelList" Type="int" Nullable="false" />
+          <Property Name="IDEquipment" Type="int" Nullable="false" />
+          <Property Name="DateShiping" Type="date" Nullable="false" />
+          <Property Name="DateReturning" Type="date" />
+          <Property Name="IsReturned" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="idManager" />
+          </Key>
+          <Property Name="idManager" Type="int" Nullable="false" />
+          <Property Name="family" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="post" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="IDModel" />
+          </Key>
+          <Property Name="IDModel" Type="int" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Characteristics" Type="nvarchar(max)" />
+          <Property Name="VendorName" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar(max)" />
+          <Property Name="EquipmentType" Type="nvarchar(max)" />
+          <Property Name="SubType" Type="nvarchar(max)" />
+          <Property Name="WeightNet" Type="int" />
+          <Property Name="WeightGross" Type="int" />
+          <Property Name="LenghtGross" Type="int" />
+          <Property Name="WidthGross" Type="int" />
+          <Property Name="HeightGross" Type="int" />
+          <Property Name="AmountGross" Type="nvarchar(max)" />
+          <Property Name="Price" Type="int" />
+        </EntityType>
+        <EntityType Name="ModelList">
+          <Key>
+            <PropertyRef Name="IDModelList" />
+          </Key>
+          <Property Name="IDModelList" Type="int" Nullable="false" />
+          <Property Name="IDRent" Type="int" Nullable="false" />
+          <Property Name="IDModel" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+        </EntityType>
+        <EntityType Name="Rents">
+          <Key>
+            <PropertyRef Name="IDRent" />
+          </Key>
+          <Property Name="IDRent" Type="int" Nullable="false" />
+          <Property Name="DateInstallation" Type="datetime" Nullable="false" />
+          <Property Name="DateDeInstallation" Type="datetime" Nullable="false" />
+          <Property Name="idManager" Type="int" />
+          <Property Name="EventName" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CustomerCompany" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerPhoneNumber" Type="nvarchar(max)" />
+          <Property Name="InstallationAddress" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Logistics.dbo.ReportMessage" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="ReportMessage">
+          <Key>
+            <PropertyRef Name="idRpt" />
+            <PropertyRef Name="UserNT" />
+          </Key>
+          <Property Name="idRpt" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="UserNT" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransferEquipment">
+          <Key>
+            <PropertyRef Name="idTransfer" />
+          </Key>
+          <Property Name="idTransfer" Type="int" Nullable="false" />
+          <Property Name="idEquipment" Type="int" Nullable="false" />
+          <Property Name="idManager" Type="int" />
+          <Property Name="TransferDateTime" Type="datetime" />
+          <Property Name="TransferFrom" Type="nvarchar(max)" />
+          <Property Name="TransferTo" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Equipment_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="IDModel" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="IDModel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipmentList_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="EquipmentList" Type="Self.EquipmentList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="IDEquipment" />
+            </Principal>
+            <Dependent Role="EquipmentList">
+              <PropertyRef Name="IDEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipmentList_ModelList">
+          <End Role="ModelList" Type="Self.ModelList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentList" Type="Self.EquipmentList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModelList">
+              <PropertyRef Name="IDModelList" />
+            </Principal>
+            <Dependent Role="EquipmentList">
+              <PropertyRef Name="IDModelList" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelList_Rents">
+          <End Role="Rents" Type="Self.Rents" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ModelList" Type="Self.ModelList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rents">
+              <PropertyRef Name="IDRent" />
+            </Principal>
+            <Dependent Role="ModelList">
+              <PropertyRef Name="IDRent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище LogisticsModelContainer">
+          <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentList" EntityType="Self.EquipmentList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ModelList" EntityType="Self.ModelList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rents" EntityType="Self.Rents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransferEquipment" EntityType="Self.TransferEquipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportMessage" EntityType="Self.ReportMessage" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ReportMessage].[idRpt] AS [idRpt], 
+    [ReportMessage].[Message] AS [Message], 
+    [ReportMessage].[DateTime] AS [DateTime], 
+    [ReportMessage].[UserNT] AS [UserNT]
+    FROM [dbo].[ReportMessage] AS [ReportMessage]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Equipment_Model" Association="Self.FK_Equipment_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentList_Equipment" Association="Self.FK_EquipmentList_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="EquipmentList" EntitySet="EquipmentList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentList_ModelList" Association="Self.FK_EquipmentList_ModelList">
+            <End Role="ModelList" EntitySet="ModelList" />
+            <End Role="EquipmentList" EntitySet="EquipmentList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelList_Rents" Association="Self.FK_ModelList_Rents">
+            <End Role="Rents" EntitySet="Rents" />
+            <End Role="ModelList" EntitySet="ModelList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LogisticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="IDEquipment" />
+          </Key>
+          <Property Name="IDEquipment" Type="Int32" Nullable="false" />
+          <Property Name="IDModel" Type="Int32" Nullable="false" />
+          <Property Name="HealthState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PositionState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedPosition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ISNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDRent" Type="Int32" />
+          <NavigationProperty Name="Model" Relationship="Self.FK_Equipment_Model" FromRole="Equipment" ToRole="Model" />
+          <NavigationProperty Name="EquipmentList" Relationship="Self.FK_EquipmentList_Equipment" FromRole="Equipment" ToRole="EquipmentList" />
+        </EntityType>
+        <EntityType Name="EquipmentList">
+          <Key>
+            <PropertyRef Name="IDEqList" />
+          </Key>
+          <Property Name="IDEqList" Type="Int32" Nullable="false" />
+          <Property Name="IDModelList" Type="Int32" Nullable="false" />
+          <Property Name="IDEquipment" Type="Int32" Nullable="false" />
+          <Property Name="DateShiping" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateReturning" Type="DateTime" Precision="0" />
+          <Property Name="IsReturned" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_EquipmentList_Equipment" FromRole="EquipmentList" ToRole="Equipment" />
+          <NavigationProperty Name="ModelList" Relationship="Self.FK_EquipmentList_ModelList" FromRole="EquipmentList" ToRole="ModelList" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="idManager" />
+          </Key>
+          <Property Name="idManager" Type="Int32" Nullable="false" />
+          <Property Name="family" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="post" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="IDModel" />
+          </Key>
+          <Property Name="IDModel" Type="Int32" Nullable="false" />
+          <Property Name="ModelName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Characteristics" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VendorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EquipmentType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WeightNet" Type="Int32" />
+          <Property Name="WeightGross" Type="Int32" />
+          <Property Name="LenghtGross" Type="Int32" />
+          <Property Name="WidthGross" Type="Int32" />
+          <Property Name="HeightGross" Type="Int32" />
+          <Property Name="AmountGross" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_Model" FromRole="Model" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="ModelList">
+          <Key>
+            <PropertyRef Name="IDModelList" />
+          </Key>
+          <Property Name="IDModelList" Type="Int32" Nullable="false" />
+          <Property Name="IDRent" Type="Int32" Nullable="false" />
+          <Property Name="IDModel" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" />
+          <NavigationProperty Name="EquipmentList" Relationship="Self.FK_EquipmentList_ModelList" FromRole="ModelList" ToRole="EquipmentList" />
+          <NavigationProperty Name="Rents" Relationship="Self.FK_ModelList_Rents" FromRole="ModelList" ToRole="Rents" />
+        </EntityType>
+        <EntityType Name="Rents">
+          <Key>
+            <PropertyRef Name="IDRent" />
+          </Key>
+          <Property Name="IDRent" Type="Int32" Nullable="false" />
+          <Property Name="DateInstallation" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateDeInstallation" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idManager" Type="Int32" />
+          <Property Name="EventName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCompany" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InstallationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ModelList" Relationship="Self.FK_ModelList_Rents" FromRole="Rents" ToRole="ModelList" />
+        </EntityType>
+        <EntityType Name="TransferEquipment">
+          <Key>
+            <PropertyRef Name="idTransfer" />
+          </Key>
+          <Property Name="idTransfer" Type="Int32" Nullable="false" />
+          <Property Name="idEquipment" Type="Int32" Nullable="false" />
+          <Property Name="idManager" Type="Int32" />
+          <Property Name="TransferDateTime" Type="DateTime" Precision="3" />
+          <Property Name="TransferFrom" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransferTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ReportMessage">
+          <Key>
+            <PropertyRef Name="idRpt" />
+            <PropertyRef Name="UserNT" />
+          </Key>
+          <Property Name="idRpt" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserNT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Equipment_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="IDModel" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="IDModel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipmentList_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="EquipmentList" Type="Self.EquipmentList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="IDEquipment" />
+            </Principal>
+            <Dependent Role="EquipmentList">
+              <PropertyRef Name="IDEquipment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipmentList_ModelList">
+          <End Role="ModelList" Type="Self.ModelList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentList" Type="Self.EquipmentList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModelList">
+              <PropertyRef Name="IDModelList" />
+            </Principal>
+            <Dependent Role="EquipmentList">
+              <PropertyRef Name="IDModelList" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelList_Rents">
+          <End Role="Rents" Type="Self.Rents" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ModelList" Type="Self.ModelList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rents">
+              <PropertyRef Name="IDRent" />
+            </Principal>
+            <Dependent Role="ModelList">
+              <PropertyRef Name="IDRent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogisticsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Equipment" EntityType="Self.Equipment" />
+          <EntitySet Name="EquipmentList" EntityType="Self.EquipmentList" />
+          <EntitySet Name="Manager" EntityType="Self.Manager" />
+          <EntitySet Name="Model" EntityType="Self.Model" />
+          <EntitySet Name="ModelList" EntityType="Self.ModelList" />
+          <EntitySet Name="Rents" EntityType="Self.Rents" />
+          <EntitySet Name="TransferEquipment" EntityType="Self.TransferEquipment" />
+          <EntitySet Name="ReportMessage" EntityType="Self.ReportMessage" />
+          <AssociationSet Name="FK_Equipment_Model" Association="Self.FK_Equipment_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentList_Equipment" Association="Self.FK_EquipmentList_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="EquipmentList" EntitySet="EquipmentList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentList_ModelList" Association="Self.FK_EquipmentList_ModelList">
+            <End Role="ModelList" EntitySet="ModelList" />
+            <End Role="EquipmentList" EntitySet="EquipmentList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelList_Rents" Association="Self.FK_ModelList_Rents">
+            <End Role="Rents" EntitySet="Rents" />
+            <End Role="ModelList" EntitySet="ModelList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище LogisticsModelContainer" CdmEntityContainer="LogisticsEntities">
+          <EntitySetMapping Name="Equipment">
+            <EntityTypeMapping TypeName="LogisticsModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="IDEquipment" ColumnName="IDEquipment" />
+                <ScalarProperty Name="IDModel" ColumnName="IDModel" />
+                <ScalarProperty Name="HealthState" ColumnName="HealthState" />
+                <ScalarProperty Name="PositionState" ColumnName="PositionState" />
+                <ScalarProperty Name="AssignedPosition" ColumnName="AssignedPosition" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="ISNumber" ColumnName="ISNumber" />
+                <ScalarProperty Name="IDRent" ColumnName="IDRent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentList">
+            <EntityTypeMapping TypeName="LogisticsModel.EquipmentList">
+              <MappingFragment StoreEntitySet="EquipmentList">
+                <ScalarProperty Name="IDEqList" ColumnName="IDEqList" />
+                <ScalarProperty Name="IDModelList" ColumnName="IDModelList" />
+                <ScalarProperty Name="IDEquipment" ColumnName="IDEquipment" />
+                <ScalarProperty Name="DateShiping" ColumnName="DateShiping" />
+                <ScalarProperty Name="DateReturning" ColumnName="DateReturning" />
+                <ScalarProperty Name="IsReturned" ColumnName="IsReturned" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manager">
+            <EntityTypeMapping TypeName="LogisticsModel.Manager">
+              <MappingFragment StoreEntitySet="Manager">
+                <ScalarProperty Name="idManager" ColumnName="idManager" />
+                <ScalarProperty Name="family" ColumnName="family" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="post" ColumnName="post" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Model">
+            <EntityTypeMapping TypeName="LogisticsModel.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="IDModel" ColumnName="IDModel" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="Characteristics" ColumnName="Characteristics" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="EquipmentType" ColumnName="EquipmentType" />
+                <ScalarProperty Name="SubType" ColumnName="SubType" />
+                <ScalarProperty Name="WeightNet" ColumnName="WeightNet" />
+                <ScalarProperty Name="WeightGross" ColumnName="WeightGross" />
+                <ScalarProperty Name="LenghtGross" ColumnName="LenghtGross" />
+                <ScalarProperty Name="WidthGross" ColumnName="WidthGross" />
+                <ScalarProperty Name="HeightGross" ColumnName="HeightGross" />
+                <ScalarProperty Name="AmountGross" ColumnName="AmountGross" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ModelList">
+            <EntityTypeMapping TypeName="LogisticsModel.ModelList">
+              <MappingFragment StoreEntitySet="ModelList">
+                <ScalarProperty Name="IDModelList" ColumnName="IDModelList" />
+                <ScalarProperty Name="IDRent" ColumnName="IDRent" />
+                <ScalarProperty Name="IDModel" ColumnName="IDModel" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rents">
+            <EntityTypeMapping TypeName="LogisticsModel.Rents">
+              <MappingFragment StoreEntitySet="Rents">
+                <ScalarProperty Name="IDRent" ColumnName="IDRent" />
+                <ScalarProperty Name="DateInstallation" ColumnName="DateInstallation" />
+                <ScalarProperty Name="DateDeInstallation" ColumnName="DateDeInstallation" />
+                <ScalarProperty Name="idManager" ColumnName="idManager" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CustomerCompany" ColumnName="CustomerCompany" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerPhoneNumber" ColumnName="CustomerPhoneNumber" />
+                <ScalarProperty Name="InstallationAddress" ColumnName="InstallationAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransferEquipment">
+            <EntityTypeMapping TypeName="LogisticsModel.TransferEquipment">
+              <MappingFragment StoreEntitySet="TransferEquipment">
+                <ScalarProperty Name="idTransfer" ColumnName="idTransfer" />
+                <ScalarProperty Name="idEquipment" ColumnName="idEquipment" />
+                <ScalarProperty Name="idManager" ColumnName="idManager" />
+                <ScalarProperty Name="TransferDateTime" ColumnName="TransferDateTime" />
+                <ScalarProperty Name="TransferFrom" ColumnName="TransferFrom" />
+                <ScalarProperty Name="TransferTo" ColumnName="TransferTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportMessage">
+            <EntityTypeMapping TypeName="LogisticsModel.ReportMessage">
+              <MappingFragment StoreEntitySet="ReportMessage">
+                <ScalarProperty Name="idRpt" ColumnName="idRpt" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="UserNT" ColumnName="UserNT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

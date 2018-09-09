@@ -13,6 +13,12 @@ namespace WebApplication2.Controllers
     {
         private LogisticsEntities db = new LogisticsEntities();
 
+        [Route("api/Equipments/{id}/history")]
+        public List<TransferEquipment> GetHistory(int id)
+        {
+            return db.TransferEquipment.Where(t => t.idEquipment == id).ToList();
+        }
+
         [Route("api/Equipments/getcategories")]
         public List<string> GetCategories()
         {
