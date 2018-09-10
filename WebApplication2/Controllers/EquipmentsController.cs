@@ -25,10 +25,10 @@ namespace WebApplication2.Controllers
             return db.Equipment.Select(t => t.HealthState).Where(t => t != null).Distinct().ToList();
         }
 
-        [Route("api/Equipments/{id}/history")]
+        [Route("api/Equipments/{id:int}/history")]
         public List<TransferEquipment> GetHistory(int id)
         {
-            return db.TransferEquipment.Where(t => t.idEquipment == id).ToList();
+            return db.TransferEquipment.Where(t => t.idEquipment == id).OrderByDescending(t=>t.TransferDateTime).ToList();
         }
 
         [Route("api/Equipments/getcategories")]
