@@ -16,13 +16,13 @@ namespace WebApplication2.Controllers
         [Route("api/Equipments/getpositions")]
         public List<string> GetPositions()
         {
-            return db.Equipment.Select(t => t.PositionState).Distinct().ToList();
+            return db.Equipment.Select(t => t.PositionState).Where(t => t != null).Distinct().ToList();
         }
 
         [Route("api/Equipments/gethealths")]
         public List<string> GetHealths()
         {
-            return db.Equipment.Select(t => t.HealthState).Distinct().ToList();
+            return db.Equipment.Select(t => t.HealthState).Where(t => t != null).Distinct().ToList();
         }
 
         [Route("api/Equipments/{id}/history")]
@@ -46,13 +46,20 @@ namespace WebApplication2.Controllers
         [Route("api/Equipments/{category}/{type}")]
         public List<ModelCount> GetModels(string category, string type)
         {
-            return (from model in db.Model
-                   where model.Category == category && model.EquipmentType == type
-                   select new ModelCount
-                   {
-                       Model = model,
-                       Count = model.Equipment.Count()
-                   }).ToList();
+            return db.Model.
+                Where(t => t.Category == category && t.EquipmentType == type).
+                Select(t => new ModelCount
+                {
+                    Model = t,
+                    Count = t.Equipment.Count()
+                }).ToList();
+            /*  return (from model in db.Model
+                     where model.Category == category && model.EquipmentType == type
+                     select new ModelCount
+                     {
+                         Model = model,
+                         Count = model.Equipment.Count()
+                     }).ToList();*/
         }
 
         [Route("api/Equipments/{category}/{type}/count")]
