@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 
 namespace WebApplication2.Controllers
 {
+    [Authorize]
     public class EquipmentsController : ApiController
     {
         private LogisticsEntities db = new LogisticsEntities();
