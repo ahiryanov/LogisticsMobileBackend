@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Text;
@@ -10,6 +11,8 @@ namespace WebApplication2
     public class BasicAuthHttpModule : IHttpModule
     {
         private const string Realm = "My Realm";
+
+        LogisticsEntities db = new LogisticsEntities();
 
         public void Init(HttpApplication context)
         {
@@ -28,16 +31,27 @@ namespace WebApplication2
         }
 
         // TODO: Here is where you would validate the username and password.
-        private static bool CheckPassword(string username, string password)
-        {
-            return username == APIKeys.Username && password == APIKeys.Password;
-        }
-
-        private static void AuthenticateUser(string credentials)
+        private bool CheckPassword(string username, string password)
         {
             try
             {
-                var encoding = Encoding.GetEncoding("iso-8859-1");
+                int countPasses = db.Manager.Where(m => (m.family + " " + m.name) == username && m.password == password).Count();
+                if (countPasses > 0) return true;
+                else return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        private void AuthenticateUser(string credentials)
+        {
+            try
+            {
+                // var encoding = Encoding.GetEncoding("iso-8859-1");
+                var encoding = Encoding.GetEncoding("UTF-8");
                 credentials = encoding.GetString(Convert.FromBase64String(credentials));
 
                 int separator = credentials.IndexOf(':');
@@ -62,7 +76,7 @@ namespace WebApplication2
             }
         }
 
-        private static void OnApplicationAuthenticateRequest(object sender, EventArgs e)
+        private void OnApplicationAuthenticateRequest(object sender, EventArgs e)
         {
             var request = HttpContext.Current.Request;
             var authHeader = request.Headers["Authorization"];
@@ -82,7 +96,7 @@ namespace WebApplication2
 
         // If the request was unauthorized, add the WWW-Authenticate header 
         // to the response.
-        private static void OnApplicationEndRequest(object sender, EventArgs e)
+        private void OnApplicationEndRequest(object sender, EventArgs e)
         {
             var response = HttpContext.Current.Response;
             if (response.StatusCode == 401)
