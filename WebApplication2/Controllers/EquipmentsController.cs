@@ -91,6 +91,7 @@ namespace WebApplication2.Controllers
 
         // PUT: api/Equipments/5
         [ResponseType(typeof(void))]
+        [Route("api/Equipments/{id:int}")]
         public IHttpActionResult PutEquipment(int id, Equipment equipment)
         {
             if (!ModelState.IsValid)
@@ -121,7 +122,7 @@ namespace WebApplication2.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(equipment);
         }
 
         // POST: api/Equipments
@@ -150,8 +151,8 @@ namespace WebApplication2.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtRoute("DefaultApi", new { id = equipment.IDEquipment }, equipment);
+            return Ok(equipment);
+           // return CreatedAtRoute("DefaultApi", new { id = equipment.IDEquipment }, equipment);
         }
 
         // DELETE: api/Equipments/5
