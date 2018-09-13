@@ -157,6 +157,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Equipments/5
         [ResponseType(typeof(Equipment))]
+        [Route("api/Equipments/{id:int}")]
         public IHttpActionResult DeleteEquipment(int id)
         {
             Equipment equipment = db.Equipment.Find(id);
