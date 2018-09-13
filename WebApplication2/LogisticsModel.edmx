@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="IDEquipment" />
           </Key>
-          <Property Name="IDEquipment" Type="int" Nullable="false" />
+          <Property Name="IDEquipment" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="IDModel" Type="int" Nullable="false" />
           <Property Name="HealthState" Type="nvarchar(max)" />
           <Property Name="PositionState" Type="nvarchar(max)" />
@@ -203,7 +203,7 @@
           <Key>
             <PropertyRef Name="IDEquipment" />
           </Key>
-          <Property Name="IDEquipment" Type="Int32" Nullable="false" />
+          <Property Name="IDEquipment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IDModel" Type="Int32" Nullable="false" />
           <Property Name="HealthState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PositionState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
