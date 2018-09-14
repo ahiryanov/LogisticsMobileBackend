@@ -19,5 +19,6 @@ namespace WebApplication2
         public string name { get; set; }
         public string post { get; set; }
         public string password { get; set; }
+        public string Location { get; set; }
     }
 }
