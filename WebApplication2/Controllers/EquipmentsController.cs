@@ -44,6 +44,17 @@ namespace WebApplication2.Controllers
             return db.Model.Where(t => t.Category == category).Select(r => r.EquipmentType).Distinct().ToList();
         }
 
+        [Route("api/Equipments/search/isnOrSerial/{argument}")]
+        public List<Equipment> GetSearchEquipmentByIsnOrSerial(string argument)
+        {
+            List<Equipment> equipments = db.Equipment.Where(s => s.ISNumber == argument || s.SerialNumber == argument).ToList();
+            if (equipments.Count == 0)
+            {
+                return null;
+            }
+            return equipments;
+        }
+
         [Route("api/Equipments/{category}/{type}")]
         public List<ModelCount> GetModels(string category, string type)
         {
@@ -89,6 +100,7 @@ namespace WebApplication2.Controllers
             return Ok(equipment);
         }
 
+        
         // PUT: api/Equipments/5
         [ResponseType(typeof(void))]
         [Route("api/Equipments/{id:int}")]
