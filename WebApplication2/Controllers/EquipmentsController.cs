@@ -92,6 +92,12 @@ namespace WebApplication2.Controllers
             return db.Model.Where(t => t.IDModel == idModel).FirstOrDefault();
         }
 
+        [Route("api/Equipments/Users")]
+        public List<Manager> GetAllUsers()
+        {
+            return db.Manager.ToList();
+        }
+
         // GET: api/Equipments/5
         [ResponseType(typeof(Equipment))]
         [Route("api/Equipments/{id:int}")]
@@ -105,6 +111,7 @@ namespace WebApplication2.Controllers
 
             return Ok(equipment);
         }
+
 
         
         // PUT: api/Equipments/5
