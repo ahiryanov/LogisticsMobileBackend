@@ -85,7 +85,13 @@ namespace WebApplication2.Controllers
         {
             return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel).ToList();
         }
-        
+
+        [Route("api/Equipments/Model/{idmodel:int}")]
+        public Model GetModel(int idModel)
+        {
+            return db.Model.Where(t => t.IDModel == idModel).FirstOrDefault();
+        }
+
         // GET: api/Equipments/5
         [ResponseType(typeof(Equipment))]
         [Route("api/Equipments/{id:int}")]
