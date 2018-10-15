@@ -38,6 +38,17 @@ namespace WebApplication2.Controllers
             return db.Model.Select(r => r.Category).Distinct().ToList();
         }
 
+        [Route("api/Equipments/AllModels")]
+        public List<ModelCount> GetAllModels()
+        {
+            return db.Model.
+                Select(t => new ModelCount
+                {
+                    Model = t,
+                    Count = t.Equipment.Count()
+                }).ToList();
+        }
+
         [Route("api/Equipments/{category}")]
         public List<string> GetTypes(string category)
         {
@@ -65,20 +76,9 @@ namespace WebApplication2.Controllers
                     Model = t,
                     Count = t.Equipment.Count()
                 }).ToList();
-            /*  return (from model in db.Model
-                     where model.Category == category && model.EquipmentType == type
-                     select new ModelCount
-                     {
-                         Model = model,
-                         Count = model.Equipment.Count()
-                     }).ToList();*/
         }
 
-        [Route("api/Equipments/{category}/{type}/count")]
-        public List<int> GetModelsCount(string category, string type)
-        {
-            return db.Model.Where(t => t.Category == category && t.EquipmentType == type).Select(r=>r.Equipment.Count).ToList();
-        }
+        
 
         [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
         public List<Equipment> GetEquipments(string category, string type, int idmodel)
