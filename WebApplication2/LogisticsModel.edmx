@@ -101,7 +101,7 @@
           <Key>
             <PropertyRef Name="idTransfer" />
           </Key>
-          <Property Name="idTransfer" Type="int" Nullable="false" />
+          <Property Name="idTransfer" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="idEquipment" Type="int" Nullable="false" />
           <Property Name="idManager" Type="int" />
           <Property Name="TransferDateTime" Type="datetime" />
@@ -291,7 +291,7 @@
           <Key>
             <PropertyRef Name="idTransfer" />
           </Key>
-          <Property Name="idTransfer" Type="Int32" Nullable="false" />
+          <Property Name="idTransfer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idEquipment" Type="Int32" Nullable="false" />
           <Property Name="idManager" Type="Int32" />
           <Property Name="TransferDateTime" Type="DateTime" Precision="3" />

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LogisticsMobile;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -77,8 +79,7 @@ namespace WebApplication2.Controllers
                     Count = t.Equipment.Count()
                 }).ToList();
         }
-
-        
+               
 
         [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
         public List<Equipment> GetEquipments(string category, string type, int idmodel)
@@ -97,23 +98,7 @@ namespace WebApplication2.Controllers
         {
             return db.Manager.ToList();
         }
-
-        // GET: api/Equipments/5
-        [ResponseType(typeof(Equipment))]
-        [Route("api/Equipments/{id:int}")]
-        public IHttpActionResult GetEquipment(int id)
-        {
-            Equipment equipment = db.Equipment.Find(id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(equipment);
-        }
-
-
-        
+                
         // PUT: api/Equipments/5
         [ResponseType(typeof(void))]
         [Route("api/Equipments/{id:int}")]
@@ -148,6 +133,38 @@ namespace WebApplication2.Controllers
             }
 
             return Ok(equipment);
+        }
+
+        //PUT transfer equipment
+        [ResponseType(typeof(string))]
+        [Route("api/Equipments/TransferEquipments")]
+        public IHttpActionResult PutTransferEquipment(TransferInfo transferInfo)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            foreach (var eq in transferInfo.Equipments)
+            {
+                db.Entry(eq).State = EntityState.Modified;
+
+                db.TransferEquipment.Add(new TransferEquipment()
+                {
+                    idEquipment = eq.IDEquipment,
+                    idManager = transferInfo.UserID,
+                    TransferDateTime = DateTime.Now,
+                    TransferFrom = eq.PositionState,
+                    TransferTo = transferInfo.NewPosition
+                });
+            }
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return null;
+            }
+            return Ok(transferInfo.NewPosition);
         }
 
         // POST: api/Equipments
