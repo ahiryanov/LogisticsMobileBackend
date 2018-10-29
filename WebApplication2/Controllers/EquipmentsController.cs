@@ -145,6 +145,7 @@ namespace WebApplication2.Controllers
 
             foreach (var eq in transferInfo.Equipments)
             {
+                eq.PositionState = transferInfo.NewPosition;
                 db.Entry(eq).State = EntityState.Modified;
 
                 db.TransferEquipment.Add(new TransferEquipment()
