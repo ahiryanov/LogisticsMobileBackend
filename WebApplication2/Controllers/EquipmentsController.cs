@@ -145,17 +145,20 @@ namespace WebApplication2.Controllers
 
             foreach (var eq in transferInfo.Equipments)
             {
-                db.TransferEquipment.Add(new TransferEquipment()
+                if (transferInfo.NewPosition != eq.PositionState)
                 {
-                    idEquipment = eq.IDEquipment,
-                    idManager = transferInfo.UserID,
-                    TransferDateTime = DateTime.Now,
-                    TransferFrom = eq.PositionState,
-                    TransferTo = transferInfo.NewPosition
-                });
+                    db.TransferEquipment.Add(new TransferEquipment()
+                    {
+                        idEquipment = eq.IDEquipment,
+                        idManager = transferInfo.UserID,
+                        TransferDateTime = DateTime.Now,
+                        TransferFrom = eq.PositionState,
+                        TransferTo = transferInfo.NewPosition
+                    });
 
-                eq.PositionState = transferInfo.NewPosition;
-                db.Entry(eq).State = EntityState.Modified;
+                    eq.PositionState = transferInfo.NewPosition;
+                    db.Entry(eq).State = EntityState.Modified;
+                }
             }
             try
             {
