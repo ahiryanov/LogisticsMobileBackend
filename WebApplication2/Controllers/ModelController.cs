@@ -1,18 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace WebApplication2.Controllers
 {
+    [Authorize]
     public class ModelController : ApiController
     {
         private LogisticsEntities db = new LogisticsEntities();
         // GET: api/Model
-        public IEnumerable<Model> Get()
+        [Route("api/Model/{position}")]
+        public List<ModelCount> GetModelsByPosition(string position)
         {
-            return db.Model;
+            List<ModelCount> modelCountList = new List<ModelCount>();
+            var equipmentByPosition = db.Equipment.Where(eq => eq.PositionState == position);
+            var modelList = equipmentByPosition.Select(r => r.Model).Distinct();
+            foreach (var model in modelList)
+                modelCountList.Add(new ModelCount()
+                {
+                    Model = model,
+                    Count = equipmentByPosition.Where(eq => eq.Model.IDModel == model.IDModel).Count()
+                });
+            return modelCountList;
         }
 
+
         // GET: api/Model/5
+        [Route("api/Model/{id:int}")]
         public Model Get(int id)
         {
             return db.Model.Find(id);

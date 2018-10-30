@@ -79,12 +79,18 @@ namespace WebApplication2.Controllers
                     Count = t.Equipment.Count()
                 }).ToList();
         }
-               
+
 
         [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
-        public List<Equipment> GetEquipments(string category, string type, int idmodel)
+        public List<Equipment> GetEquipmentsByModel(string category, string type, int idmodel)
         {
             return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel).ToList();
+        }
+
+        [Route("api/Equipments/{category}/{type}/{idmodel:int}/{position}")]
+        public List<Equipment> GetEquipmentsByModelAndPosition(string category, string type, int idmodel, string position)
+        {
+            return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel && t.PositionState == position).ToList();
         }
 
         [Route("api/Equipments/Model/{idmodel:int}")]
@@ -92,6 +98,8 @@ namespace WebApplication2.Controllers
         {
             return db.Model.Where(t => t.IDModel == idModel).FirstOrDefault();
         }
+
+
 
         [Route("api/Equipments/Users")]
         public List<Manager> GetAllUsers()
