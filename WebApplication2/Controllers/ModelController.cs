@@ -14,18 +14,10 @@ namespace WebApplication2.Controllers
         [ResponseType(typeof(List<ModelCount>))]
         public IHttpActionResult PostGetModelsByPosition([FromBody]string position)
         {
-            List<ModelCount> modelCountList = new List<ModelCount>();
-            var equipmentByPosition = db.Equipment.Where(eq => eq.PositionState == position);
-            var modelList = equipmentByPosition.Select(r => r.Model).Distinct();
-            foreach (var model in modelList)
-                modelCountList.Add(new ModelCount()
-                {
-                    Model = model,
-                    Count = equipmentByPosition.Where(eq => eq.Model.IDModel == model.IDModel).Count()
-                });
-            if (modelCountList.Count == 0)
-                return NotFound();
-            return Ok(modelCountList);
+            return Ok(db.Equipment.
+                Where(eq => eq.PositionState == position).
+                GroupBy(p => p.Model).
+                Select(p => new ModelCount() { Model = p.Key, Count = p.Count() }));
         }
 
         // GET: api/Model/5
