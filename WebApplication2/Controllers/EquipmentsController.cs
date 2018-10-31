@@ -31,7 +31,7 @@ namespace WebApplication2.Controllers
         [Route("api/Equipments/{id:int}/history")]
         public List<TransferEquipment> GetHistory(int id)
         {
-            return db.TransferEquipment.Where(t => t.idEquipment == id).OrderByDescending(t=>t.TransferDateTime).ToList();
+            return db.TransferEquipment.Where(t => t.idEquipment == id).OrderByDescending(t => t.TransferDateTime).ToList();
         }
 
         [Route("api/Equipments/getcategories")]
@@ -87,10 +87,14 @@ namespace WebApplication2.Controllers
             return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel).ToList();
         }
 
-        [Route("api/Equipments/{category}/{type}/{idmodel:int}/{position}")]
-        public List<Equipment> GetEquipmentsByModelAndPosition(string category, string type, int idmodel, string position)
+        [ResponseType(typeof(List<Equipment>))]
+        [Route("api/Equipments/{category}/{type}/{idmodel:int}")]
+        public IHttpActionResult PostGetEquipmentsByModelAndPosition(string category, string type, int idmodel, [FromBody] string position)
         {
-            return db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel && t.PositionState == position).ToList();
+            var equipments = db.Equipment.Where(t => t.Model.Category == category && t.Model.EquipmentType == type && t.IDModel == idmodel && t.PositionState == position).ToList();
+            if (equipments.Count == 0)
+                return NotFound();
+            return Ok(equipments);
         }
 
         [Route("api/Equipments/Model/{idmodel:int}")]

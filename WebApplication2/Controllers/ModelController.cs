@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace WebApplication2.Controllers
 {
@@ -9,8 +10,9 @@ namespace WebApplication2.Controllers
     {
         private LogisticsEntities db = new LogisticsEntities();
         // GET: api/Model
-        [Route("api/Model/{position}")]
-        public List<ModelCount> GetModelsByPosition(string position)
+        [Route("api/Model/GetModelsByPosition")]
+        [ResponseType(typeof(List<ModelCount>))]
+        public IHttpActionResult PostGetModelsByPosition([FromBody]string position)
         {
             List<ModelCount> modelCountList = new List<ModelCount>();
             var equipmentByPosition = db.Equipment.Where(eq => eq.PositionState == position);
@@ -21,9 +23,10 @@ namespace WebApplication2.Controllers
                     Model = model,
                     Count = equipmentByPosition.Where(eq => eq.Model.IDModel == model.IDModel).Count()
                 });
-            return modelCountList;
+            if (modelCountList.Count == 0)
+                return NotFound();
+            return Ok(modelCountList);
         }
-
 
         // GET: api/Model/5
         [Route("api/Model/{id:int}")]
