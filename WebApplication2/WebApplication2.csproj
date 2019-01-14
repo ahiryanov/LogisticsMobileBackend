@@ -25,8 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <Use64BitIISExpress>
-    </Use64BitIISExpress>
+    <Use64BitIISExpress>true</Use64BitIISExpress>
     <ApplicationInsightsResourceId />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -299,6 +298,7 @@
     <Content Include="LogisticsModel.edmx.diagram">
       <DependentUpon>LogisticsModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\ARSoft - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\DeployProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
